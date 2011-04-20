@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.knowhowlab.tips.jpa</groupId>
+    <artifactId>tests-aries-eclipselink</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>KnowHowLab OSGi JPA tips Apache Aries with EclipseLink Tests module</name>
+    <url>http://knowhowlab.org</url>
+
+    <developers>
+        <developer>
+            <name>Dmytro Pishchukhin</name>
+            <timezone>GMT+1</timezone>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Know-How Lab</name>
+        <url>http://knowhowlab.org</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <profiles>
+        <profile>
+            <id>equinox</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <build>
+                <defaultGoal>pax:provision</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.ops4j</groupId>
+                        <artifactId>maven-pax-plugin</artifactId>
+                        <version>1.4</version>
+                        <configuration>
+                            <framework>equinox</framework>
+                            <provision>
+                                <param>--log=error</param>
+                                <param>--workingDirectory=target/runner</param>
+                                <param>--vmOptions=-Dderby.system.home=.</param>
+
+                                <param>mvn:org.knowhowlab.osgi.shell/equinox/1.0.1</param>
+                                <param>mvn:org.osgi/org.osgi.compendium/4.2.0</param>
+                                <param>mvn:org.osgi/org.osgi.enterprise/4.2.0</param>
+                                <param>mvn:org.apache.geronimo.specs/geronimo-jpa_2.0_spec/1.1</param>
+                                <param>mvn:org.apache.derby/derby/10.7.1.1</param>
+
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.antlr/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.asm/2.2.0</param>
+
+                                <param>mvn:commons-collections/commons-collections/3.2.1</param>
+                                <param>mvn:org.slf4j/slf4j-api/1.6.1</param>
+                                <param>mvn:org.slf4j/slf4j-simple/1.6.1@nostart</param>
+                                <param>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.13.1_3</param>
+                                <param>mvn:org.apache.aries/org.apache.aries.util/0.3</param>
+                                <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.api/0.3</param>
+                                <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/0.3</param>
+                                <param>mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/0.3</param>
+
+                                <param>mvn:org.knowhowlab.tips.jpa/eclipselink/1.0.0-SNAPSHOT</param>
+                                <param>mvn:org.knowhowlab.tips.jpa/model/1.0.0-SNAPSHOT</param>
+                                <param>mvn:org.knowhowlab.tips.jpa/client/1.0.0-SNAPSHOT</param>
+                            </provision>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>felix</id>
+            <build>
+                <defaultGoal>pax:provision</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.ops4j</groupId>
+                        <artifactId>maven-pax-plugin</artifactId>
+                        <version>1.4</version>
+                        <configuration>
+                            <framework>felix</framework>
+                            <provision>
+                                <param>--log=error</param>
+                                <param>--workingDirectory=target/runner</param>
+                                <param>--vmOptions=-Dderby.system.home=.</param>
+
+                                <param>mvn:org.knowhowlab.osgi.shell/felix-gogo/1.0.1</param>
+                                <param>mvn:org.osgi/org.osgi.compendium/4.2.0</param>
+                                <param>mvn:org.osgi/org.osgi.enterprise/4.2.0</param>
+                                <param>mvn:org.apache.geronimo.specs/geronimo-jpa_2.0_spec/1.1</param>
+                                <param>mvn:org.apache.derby/derby/10.7.1.1</param>
+
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.antlr/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.asm/2.2.0</param>
+
+                                <param>mvn:commons-collections/commons-collections/3.2.1</param>
+                                <param>mvn:org.slf4j/slf4j-api/1.6.1</param>
+                                <param>mvn:org.slf4j/slf4j-simple/1.6.1@nostart</param>
+                                <param>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.13.1_3</param>
+                                <param>mvn:org.apache.aries/org.apache.aries.util/0.3</param>
+                                <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.api/0.3</param>
+                                <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/0.3</param>
+                                <param>mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/0.3</param>
+
+                                <param>mvn:org.knowhowlab.tips.jpa/eclipselink/1.0.0-SNAPSHOT</param>
+                                <param>mvn:org.knowhowlab.tips.jpa/model/1.0.0-SNAPSHOT</param>
+                                <param>mvn:org.knowhowlab.tips.jpa/client/1.0.0-SNAPSHOT</param>
+                            </provision>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>kf</id>
+            <build>
+                <defaultGoal>pax:provision</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.ops4j</groupId>
+                        <artifactId>maven-pax-plugin</artifactId>
+                        <version>1.4</version>
+                        <configuration>
+                            <framework>knopflerfish</framework>
+                            <provision>
+                                <param>--log=error</param>
+                                <param>--workingDirectory=target/runner</param>
+                                <param>--vmOptions=-Dderby.system.home=.</param>
+
+                                <param>mvn:org.knowhowlab.osgi.shell/knopflerfish/1.0.1</param>
+                                <param>mvn:org.osgi/org.osgi.compendium/4.2.0</param>
+                                <param>mvn:org.osgi/org.osgi.enterprise/4.2.0</param>
+                                <param>mvn:org.apache.geronimo.specs/geronimo-jpa_2.0_spec/1.1</param>
+                                <param>file:///${project.basedir}/libs/derby/derby-10.7.1.1-patched.jar</param>
+
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.antlr/2.2.0</param>
+                                <param>mvn:org.eclipse.persistence/org.eclipse.persistence.asm/2.2.0</param>
+
+                                <param>mvn:commons-collections/commons-collections/3.2.1</param>
+                                <param>mvn:org.slf4j/slf4j-api/1.6.1</param>
+                                <param>mvn:org.slf4j/slf4j-simple/1.6.1@nostart</param>
+                                <param>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/1.13.1_3</param>
+                                <param>mvn:org.apache.aries/org.apache.aries.util/0.3</param>
+                                <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.api/0.3</param>
+                                <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/0.3</param>
+                                <param>mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/0.3</param>
+
+                                <param>mvn:org.knowhowlab.tips.jpa/eclipselink/1.0.0-SNAPSHOT</param>
+                                <param>mvn:org.knowhowlab.tips.jpa/model/1.0.0-SNAPSHOT</param>
+                                <param>mvn:org.knowhowlab.tips.jpa/client/1.0.0-SNAPSHOT</param>
+                            </provision>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>eclipselink repo</id>
+            <url>http://mirror.netcologne.de/eclipse/rt/eclipselink/maven.repo</url>
+        </repository>
+    </repositories>
+</project>

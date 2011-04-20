@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.knowhowlab.tips.jpa</groupId>
+    <artifactId>model</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+    <name>KnowHowLab OSGi JPA tips - model</name>
+    <description>KnowHowLab OSGi JPA tips - model</description>
+    <url>http://knowhowlab.org</url>
+
+    <developers>
+        <developer>
+            <name>Dmytro Pishchukhin</name>
+            <timezone>GMT+1</timezone>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Know-How Lab</name>
+        <url>http://knowhowlab.org</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jpa_2.0_spec</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <extra.packages>*</extra.packages>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.4</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>org.knowhowlab.tips.jpa.model</Export-Package>
+                        <Import-Package>
+                            javax.persistence;version="1.1.0";jpa="2.0",org.apache.derby.jdbc,${extra.packages}
+                        </Import-Package>
+                        <Bundle-License>http://code.google.com/p/osgilab/wiki/License</Bundle-License>
+                        <JPA-PersistenceUnits>jpa.students</JPA-PersistenceUnits>
+                        <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
+                        <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+                        <_removeheaders>Bnd-LastModified, Built-By, Private-Package, Tool,
+                            Build-Jdk, Include-Resource, Embed-Dependency
+                        </_removeheaders>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>openjpa</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources_openjpa</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <configuration>
+                                    <tasks>
+                                        <path id="enhance.path.ref">
+                                            <fileset dir="${project.build.outputDirectory}">
+                                                <include name="*.class"/>
+                                            </fileset>
+                                        </path>
+                                        <pathconvert property="enhance.files" refid="enhance.path.ref" pathsep=" "/>
+                                        <java classname="org.apache.openjpa.enhance.PCEnhancer">
+                                            <arg line="-p persistence.xml"/>
+                                            <arg line="${enhance.files}"/>
+                                            <classpath>
+                                                <path refid="maven.dependency.classpath"/>
+                                                <path refid="maven.compile.classpath"/>
+                                            </classpath>
+                                        </java>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.openjpa</groupId>
+                    <artifactId>openjpa</artifactId>
+                    <version>2.1.0</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>hibernate</id>
+            <properties>
+                <extra.packages>org.hibernate.proxy,javassist.util.proxy</extra.packages>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources_hibernate</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>eclipselink</id>
+            <properties>
+                <extra.packages>org.eclipse.persistence.indirection</extra.packages>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources_eclipselink</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+</project>
