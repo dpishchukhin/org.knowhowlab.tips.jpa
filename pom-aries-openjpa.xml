@@ -148,10 +148,6 @@
                                 <param>mvn:org.apache.derby/derby/10.8.1.2</param>
 
                                 <param>mvn:commons-collections/commons-collections/3.2.1</param>
-                                <param>mvn:commons-pool/commons-pool/1.5.5</param>
-                                <param>mvn:commons-dbcp/commons-dbcp/1.4</param>
-                                <param>mvn:commons-lang/commons-lang/2.6</param>
-                                <param>mvn:org.apache.openjpa/openjpa/2.1.0</param>
 
                                 <param>mvn:org.slf4j/slf4j-api/1.6.1</param>
                                 <param>mvn:org.slf4j/slf4j-simple/1.6.1@nostart</param>
@@ -160,6 +156,11 @@
                                 <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.api/0.3</param>
                                 <param>mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/0.3</param>
                                 <param>mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/0.3</param>
+
+                                <param>mvn:commons-pool/commons-pool/1.5.5</param>
+                                <param>mvn:commons-dbcp/commons-dbcp/1.4</param>
+                                <param>mvn:commons-lang/commons-lang/2.6</param>
+                                <param>mvn:org.apache.openjpa/openjpa/2.1.0</param>
 
                                 <param>mvn:org.knowhowlab.tips.jpa/model/1.0.0-SNAPSHOT</param>
                                 <param>mvn:org.knowhowlab.tips.jpa/client/1.0.0-SNAPSHOT</param>
